@@ -3,8 +3,9 @@
 
 int encode_can_message(CANMessage *message, CANEncodedMsg *encoded_message)
 {
+    int i;
     uint8_t size;
-    uint8_t can_id[CAN_ID_SIZE];
+    uint8_t *can_id;
     uint8_t *data_ptr;
 
     size = HEADER_SIZE + message->data_size;
@@ -26,7 +27,7 @@ int encode_can_message(CANMessage *message, CANEncodedMsg *encoded_message)
 
     // Set data bytes
     data_ptr = &(encoded_message->data[HEADER_SIZE]);
-    for (int i = 0; i < message->data_size; i++) {
+    for (i = 0; i < message->data_size; i++) {
         // Encode special bytes
         if (message->data[i] == START_OF_FRAME) {
             *data_ptr = (uint8_t) ENCODE_BYTE_A;
@@ -54,7 +55,8 @@ int encode_can_message(CANMessage *message, CANEncodedMsg *encoded_message)
 
 int decode_can_message(CANEncodedMsg *encoded_message, CANMessage *message)
 {
-    uint8_t can_id[CAN_ID_SIZE];
+    int i;
+    uint8_t *can_id;
     uint8_t *data_ptr;
     
     // Get packet size
@@ -70,7 +72,7 @@ int decode_can_message(CANEncodedMsg *encoded_message, CANMessage *message)
     
     // Get data bytes
     data_ptr = &(encoded_message->data[HEADER_SIZE]);
-    for (int i = 0; i < message->data_size; i++) {
+    for (i = 0; i < message->data_size; i++) {
         // Decode special bytes
         if (*data_ptr == ENCODE_BYTE_A) {
             data_ptr += 1;
@@ -83,6 +85,7 @@ int decode_can_message(CANEncodedMsg *encoded_message, CANMessage *message)
             } else {
                 // Decoding error
                 return 1;
+            }
         } else {
             message->data[i] = *data_ptr;
             data_ptr += 1;
