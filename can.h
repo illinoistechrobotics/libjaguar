@@ -18,6 +18,7 @@
 #define MAX_MSG_BYTES  22
 
 // API Classes
+#define API_SYS      0
 #define API_VOLTAGE  0
 #define API_SPEED    1
 #define API_VOLTCOMP 2
