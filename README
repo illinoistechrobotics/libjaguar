@@ -1,0 +1,18 @@
+libjaguar - A C library for interfacing with VEXpro Jaguar motor controllers 
+using CANbus through a serial interface
+
+Supported Platforms:
+Linux
+
+Author:
+Jesse Taylor
+
+Usage:
+- Include libjaguar.h
+- Declare a JaguarConnection struct
+- Using this struct, open a connection to a Jaguar bus through a serial port 
+with open_jaguar_connection()
+- Use the initialized JaguarConnection struct for subsequent function calls
+- Close the connection with close_jaguar_connection() to restore the serial
+port to its previous configuration
+
